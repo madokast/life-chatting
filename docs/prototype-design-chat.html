@@ -147,29 +147,9 @@
             justify-content: flex-start;
         }
 
-        /* 头像样式 */
-        .avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            object-fit: cover;
-            margin: 0 0.5rem;
-            flex-shrink: 0;
-        }
-
-        .message-item.user .avatar {
-            order: 2;
-        }
-
-        .message-item.ai .avatar {
-            order: 1;
-        }
-
         /* 消息内容样式 */
         .message-content {
-            max-width: 70%;
             padding: 0.75rem 1rem;
-            border-radius: 18px;
             position: relative;
             word-wrap: break-word;
         }
@@ -177,23 +157,28 @@
         .message-item.user .message-content {
             background-color: #007bff;
             color: #fff;
+            border-radius: 18px;
             border-bottom-right-radius: 4px;
-            order: 1;
+            max-width: 70%;
         }
 
         .message-item.ai .message-content {
-            background-color: #e9ecef;
             color: #333;
-            border-bottom-left-radius: 4px;
-            order: 2;
+            background: none;
+            max-width: 100%;
         }
 
         /* 消息时间样式 */
         .message-time {
             font-size: 0.75rem;
             color: #999;
-            margin: 0.25rem 0.5rem;
+            margin: 0.25rem 0;
             align-self: flex-end;
+            text-align: right;
+        }
+
+        .message-item.ai .message-time {
+            text-align: left;
         }
 
         /* 输入区域样式 */
@@ -369,7 +354,6 @@
                 <div class="chat-messages">
                     <!-- AI 欢迎消息 -->
                     <div class="message-item ai">
-                        <img src="https://cdn.pixabay.com/photo/2016/11/14/16/20/snowflake-1823942_640.jpg" alt="AI Avatar" class="avatar">
                         <div class="message-content">
                             你好！我是你的 AI 助手，有什么可以帮你的吗？
                         </div>
@@ -378,7 +362,6 @@
 
                     <!-- 用户消息 -->
                     <div class="message-item user">
-                        <img src="https://cdn.pixabay.com/photo/2016/11/14/16/20/snowflake-1823942_640.jpg" alt="User Avatar" class="avatar">
                         <div class="message-content">
                             你能帮我分析一下最近的日记吗？
                         </div>
@@ -387,7 +370,6 @@
 
                     <!-- AI 回复 -->
                     <div class="message-item ai">
-                        <img src="https://cdn.pixabay.com/photo/2016/11/14/16/20/snowflake-1823942_640.jpg" alt="AI Avatar" class="avatar">
                         <div class="message-content">
                             当然可以！请稍等，我正在阅读你的日记...
                         </div>
@@ -396,7 +378,6 @@
 
                     <!-- AI 分析结果 -->
                     <div class="message-item ai">
-                        <img src="https://cdn.pixabay.com/photo/2016/11/14/16/20/snowflake-1823942_640.jpg" alt="AI Avatar" class="avatar">
                         <div class="message-content">
                             根据你最近的日记，我发现你最近在学习新技能，并且对未来有一些规划。这很好！我建议你可以：
                             1. 制定一个详细的学习计划
@@ -408,7 +389,6 @@
 
                     <!-- 用户消息 -->
                     <div class="message-item user">
-                        <img src="https://cdn.pixabay.com/photo/2016/11/14/16/20/snowflake-1823942_640.jpg" alt="User Avatar" class="avatar">
                         <div class="message-content">
                             谢谢你的建议！我会尝试按照你说的去做。
                         </div>
@@ -417,7 +397,6 @@
 
                     <!-- AI 思考状态 -->
                     <div class="message-item ai">
-                        <img src="https://cdn.pixabay.com/photo/2016/11/14/16/20/snowflake-1823942_640.jpg" alt="AI Avatar" class="avatar">
                         <div class="message-content">
                             <div class="typing-indicator">
                                 <div class="typing-dot"></div>
