@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Life Chatting - 聊天页面</title>
+    <style>
+        /* 基础样式重置 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f5f5f5;
+        }
+
+        /* 页面容器 */
+        .app-container {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* 主内容区域 */
+        .main-content {
+            flex: 1;
+            padding: 1rem;
+            background-color: #fff;
+        }
+
+        /* 底部导航栏 */
+        .bottom-nav {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            background-color: #fff;
+            border-top: 1px solid #e0e0e0;
+            padding: 0.5rem 0;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: #666;
+            padding: 0.5rem;
+        }
+
+        .nav-item.active {
+            color: #007bff;
+        }
+
+        .nav-item span {
+            font-size: 0.8rem;
+            margin-top: 0.25rem;
+        }
+
+        /* 左侧抽屉菜单 */
+        .drawer-menu {
+            position: fixed;
+            left: -250px;
+            top: 0;
+            width: 250px;
+            height: 100vh;
+            background-color: #fff;
+            border-right: 1px solid #e0e0e0;
+            transition: left 0.3s ease;
+            z-index: 200;
+            padding: 1rem;
+        }
+
+        .drawer-menu.open {
+            left: 0;
+        }
+
+        .drawer-item {
+            display: block;
+            text-decoration: none;
+            color: #333;
+            padding: 0.75rem 1rem;
+            border-radius: 4px;
+            margin-bottom: 0.5rem;
+            transition: background-color 0.2s ease;
+        }
+
+        .drawer-item:hover {
+            background-color: #f0f0f0;
+        }
+
+        /* 聊天页面样式 */
+        .chat-container {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #f8f9fa;
+        }
+
+        /* 聊天头部样式 */
+        .chat-header {
+            background-color: #fff;
+            border-bottom: 1px solid #e0e0e0;
+            padding: 1rem;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .chat-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        /* 消息列表样式 */
+        .chat-messages {
+            flex: 1;
+            padding: 1rem;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        /* 消息项样式 */
+        .message-item {
+            display: flex;
+            margin-bottom: 1rem;
+        }
+
+        .message-item.user {
+            justify-content: flex-end;
+        }
+
+        .message-item.ai {
+            justify-content: flex-start;
+        }
+
+        /* 头像样式 */
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin: 0 0.5rem;
+            flex-shrink: 0;
+        }
+
+        .message-item.user .avatar {
+            order: 2;
+        }
+
+        .message-item.ai .avatar {
+            order: 1;
+        }
+
+        /* 消息内容样式 */
+        .message-content {
+            max-width: 70%;
+            padding: 0.75rem 1rem;
+            border-radius: 18px;
+            position: relative;
+            word-wrap: break-word;
+        }
+
+        .message-item.user .message-content {
+            background-color: #007bff;
+            color: #fff;
+            border-bottom-right-radius: 4px;
+            order: 1;
+        }
+
+        .message-item.ai .message-content {
+            background-color: #e9ecef;
+            color: #333;
+            border-bottom-left-radius: 4px;
+            order: 2;
+        }
+
+        /* 消息时间样式 */
+        .message-time {
+            font-size: 0.75rem;
+            color: #999;
+            margin: 0.25rem 0.5rem;
+            align-self: flex-end;
+        }
+
+        /* 输入区域样式 */
+        .chat-input-container {
+            background-color: #fff;
+            border-top: 1px solid #e0e0e0;
+            padding: 0.75rem 1rem;
+            display: flex;
+            align-items: flex-end;
+            gap: 0.5rem;
+        }
+
+        .input-wrapper {
+            flex: 1;
+            display: flex;
+            background-color: #f8f9fa;
+            border-radius: 20px;
+            padding: 0.5rem 1rem;
+            align-items: flex-end;
+            gap: 0.5rem;
+        }
+
+        .chat-input {
+            flex: 1;
+            border: none;
+            background: transparent;
+            resize: none;
+            min-height: 24px;
+            max-height: 120px;
+            font-family: inherit;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .chat-input:focus {
+            outline: none;
+        }
+
+        /* 按钮样式 */
+        .input-btn {
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            color: #666;
+            padding: 0.25rem;
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .input-btn:hover {
+            background-color: #e0e0e0;
+        }
+
+        .send-btn {
+            background-color: #007bff;
+            color: #fff;
+            font-size: 1rem;
+        }
+
+        .send-btn:hover {
+            background-color: #0056b3;
+        }
+
+        /* AI 思考状态 */
+        .typing-indicator {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            background-color: #666;
+            border-radius: 50%;
+            animation: typing 1.4s infinite;
+        }
+
+        .typing-dot:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .typing-dot:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes typing {
+            0%, 60%, 100% {
+                transform: scale(1);
+                opacity: 0.5;
+            }
+            30% {
+                transform: scale(1.2);
+                opacity: 1;
+            }
+        }
+
+        /* 响应式设计 */
+        @media (min-width: 768px) {
+            .app-container {
+                flex-direction: row;
+            }
+
+            .drawer-menu {
+                position: static;
+                left: 0;
+                width: 200px;
+                border-right: 1px solid #e0e0e0;
+            }
+
+            .main-content {
+                flex: 1;
+                padding: 2rem;
+            }
+
+            .bottom-nav {
+                display: none;
+            }
+
+            /* 聊天页面响应式 */
+            .chat-container {
+                height: calc(100vh - 4rem);
+                border-radius: 8px;
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+                overflow: hidden;
+            }
+
+            .message-content {
+                max-width: 60%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            /* 移动端消息样式 */
+            .message-content {
+                max-width: 85%;
+            }
+
+            .avatar {
+                width: 35px;
+                height: 35px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- 左侧抽屉菜单 -->
+        <nav class="drawer-menu">
+            <h2>Life Chatting</h2>
+            <a href="prototype-design-diary.html" class="drawer-item">日记</a>
+            <a href="prototype-design-chat.html" class="drawer-item">聊天</a>
+            <a href="#" class="drawer-item">配置</a>
+            <a href="#" class="drawer-item">同步</a>
+            <a href="#" class="drawer-item">导出</a>
+            <a href="#" class="drawer-item">导入</a>
+        </nav>
+
+        <!-- 主内容区域 -->
+        <main class="main-content">
+            <div class="chat-container">
+                <!-- 聊天头部 -->
+                <div class="chat-header">
+                    <h2 class="chat-title">AI 助手</h2>
+                </div>
+
+                <!-- 消息列表 -->
+                <div class="chat-messages">
+                    <!-- AI 欢迎消息 -->
+                    <div class="message-item ai">
+                        <img src="https://cdn.pixabay.com/photo/2016/11/14/16/20/snowflake-1823942_640.jpg" alt="AI Avatar" class="avatar">
+                        <div class="message-content">
+                            你好！我是你的 AI 助手，有什么可以帮你的吗？
+                        </div>
+                        <span class="message-time">14:15</span>
+                    </div>
+
+                    <!-- 用户消息 -->
+                    <div class="message-item user">
+                        <img src="https://cdn.pixabay.com/photo/2016/11/14/16/20/snowflake-1823942_640.jpg" alt="User Avatar" class="avatar">
+                        <div class="message-content">
+                            你能帮我分析一下最近的日记吗？
+                        </div>
+                        <span class="message-time">14:16</span>
+                    </div>
+
+                    <!-- AI 回复 -->
+                    <div class="message-item ai">
+                        <img src="https://cdn.pixabay.com/photo/2016/11/14/16/20/snowflake-1823942_640.jpg" alt="AI Avatar" class="avatar">
+                        <div class="message-content">
+                            当然可以！请稍等，我正在阅读你的日记...
+                        </div>
+                        <span class="message-time">14:16</span>
+                    </div>
+
+                    <!-- AI 分析结果 -->
+                    <div class="message-item ai">
+                        <img src="https://cdn.pixabay.com/photo/2016/11/14/16/20/snowflake-1823942_640.jpg" alt="AI Avatar" class="avatar">
+                        <div class="message-content">
+                            根据你最近的日记，我发现你最近在学习新技能，并且对未来有一些规划。这很好！我建议你可以：
+                            1. 制定一个详细的学习计划
+                            2. 定期回顾和调整你的目标
+                            3. 保持积极的心态，不要给自己太大压力
+                        </div>
+                        <span class="message-time">14:17</span>
+                    </div>
+
+                    <!-- 用户消息 -->
+                    <div class="message-item user">
+                        <img src="https://cdn.pixabay.com/photo/2016/11/14/16/20/snowflake-1823942_640.jpg" alt="User Avatar" class="avatar">
+                        <div class="message-content">
+                            谢谢你的建议！我会尝试按照你说的去做。
+                        </div>
+                        <span class="message-time">14:18</span>
+                    </div>
+
+                    <!-- AI 思考状态 -->
+                    <div class="message-item ai">
+                        <img src="https://cdn.pixabay.com/photo/2016/11/14/16/20/snowflake-1823942_640.jpg" alt="AI Avatar" class="avatar">
+                        <div class="message-content">
+                            <div class="typing-indicator">
+                                <div class="typing-dot"></div>
+                                <div class="typing-dot"></div>
+                                <div class="typing-dot"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 输入区域 -->
+                <div class="chat-input-container">
+                    <div class="input-wrapper">
+                        <button class="input-btn">📎</button>
+                        <textarea class="chat-input" placeholder="输入消息..."></textarea>
+                        <button class="input-btn">🎤</button>
+                    </div>
+                    <button class="input-btn send-btn">➤</button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- 底部导航栏 -->
+    <nav class="bottom-nav">
+        <a href="prototype-design-diary.html" class="nav-item">
+            <span>📝</span>
+            <span>日记</span>
+        </a>
+        <a href="prototype-design-chat.html" class="nav-item active">
+            <span>🤖</span>
+            <span>聊天</span>
+        </a>
+    </nav>
+</body>
+</html>
