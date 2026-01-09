@@ -12,10 +12,15 @@
 
 ## 技术栈
 
+本项目提供两个实现版本，功能对等，用户可根据需求选择：
+
+### Capacitor 版本
+
 - **前端框架**：Vite + React + TypeScript
+- **跨平台框架**：Capacitor
 - **UI 框架**：React + Tailwind CSS + shadcn/ui
 - **状态管理**：Zustand
-- **本地存储**：IndexedDB (通过 Dexie.js 封装)
+- **本地存储**：IndexedDB (浏览器) / @capacitor/filesystem (移动端)
 - **PWA 支持**：vite-plugin-pwa
 - **国际化**：i18next + react-i18next
 - **AI 集成**：客户端直接调用 OpenAI/Anthropic API
@@ -23,7 +28,51 @@
 - **文件处理**：JSZip (打包/解压 ZIP)
 - **路由**：React Router v6
 
+### Flutter 版本
+
+- **前端框架**：Flutter + Dart
+- **UI 框架**：Material Design / Cupertino
+- **状态管理**：Provider / Riverpod
+- **本地存储**：sqflite / hive
+- **PWA 支持**：flutter_web
+- **国际化**：flutter_localizations
+- **AI 集成**：客户端直接调用 OpenAI/Anthropic API
+- **数据同步**：http 包 + WebDAV 协议
+- **文件处理**：archive 包 (打包/解压 ZIP)
+- **路由**：go_router
+
 ## 架构设计
+
+### 项目结构
+
+```
+life-chatting/
+├── capacitor-app/          # Capacitor 版本
+│   ├── src/               # React + TypeScript 代码
+│   ├── capacitor.config.ts
+│   ├── android/
+│   ├── ios/
+│   └── dist/              # Web/PWA 构建产物
+│
+├── flutter-app/           # Flutter 版本
+│   ├── lib/
+│   ├── web/
+│   ├── android/
+│   └── ios/
+│
+└── shared/                # 共享资源
+    ├── locales/           # 国际化文件
+    ├── docs/              # 文档
+    └── assets/            # 共享资源
+```
+
+### 双版本特性
+
+- **Web/PWA**：两个版本都支持 Web 和 PWA，用户可直接在浏览器中使用
+- **移动端**：两个版本都支持 Android 和 iOS，可安装到手机桌面
+- **文件系统**：移动端访问原生文件系统缓存多媒体文件，避免浏览器 API 的限制
+- **功能对等**：两个版本功能保持一致，用户可根据偏好选择
+- **数据互通**：两个版本使用相同的数据格式，可通过 WebDAV 同步实现数据互通
 
 ### 纯静态应用
 - 完全无后端，可部署到任意静态托管平台（GitHub Pages、Vercel、Netlify 等）
@@ -99,16 +148,28 @@
 - **多媒体数据**：图片、文档等附件文件
 
 #### 存储方案
+
+**Capacitor 版本：**
 - **浏览器环境**：所有数据存储在 IndexedDB 中，容量可达数百 MB
-- **移动端（PWA）**：调用平台功能存储在应用目录中
+- **移动端**：
+  - 文本数据：IndexedDB 或 SQLite
+  - 多媒体文件：通过 @capacitor/filesystem 访问原生文件系统，容量更大更可靠
+
+**Flutter 版本：**
+- **Web 环境**：使用 sqflite_web 或 hive 存储数据
+- **移动端**：
+  - 文本数据：sqflite 或 hive
+  - 多媒体文件：通过 path_provider 访问原生文件系统，容量更大更可靠
 
 ## 开发计划
 
-- [ ] 初始化 Vite + React + TypeScript 项目
+### 阶段一：Capacitor 版本（优先）
+
+- [ ] 初始化 Capacitor 项目（Vite + React + TypeScript）
 - [ ] 配置 PWA 支持
 - [ ] 搭建基础 UI 框架（shadcn/ui）
 - [ ] 配置国际化支持（i18next）
-- [ ] 实现 IndexedDB 数据存储层
+- [ ] 实现数据存储层（IndexedDB + @capacitor/filesystem）
 - [ ] 实现日记模块（增删改查、附件上传）
 - [ ] 实现 AI 聊天模块
 - [ ] 实现 WebDAV 同步功能
@@ -116,3 +177,20 @@
 - [ ] 实现设置页面（语言切换、API Key、WebDAV 配置）
 - [ ] 响应式设计优化
 - [ ] PWA 功能测试
+- [ ] Capacitor 移动端测试
+
+### 阶段二：Flutter 版本（根据需求）
+
+- [ ] 初始化 Flutter 项目
+- [ ] 配置 Web/PWA 支持
+- [ ] 搭建基础 UI 框架（Material Design）
+- [ ] 配置国际化支持（flutter_localizations）
+- [ ] 实现数据存储层（sqflite + path_provider）
+- [ ] 实现日记模块（增删改查、附件上传）
+- [ ] 实现 AI 聊天模块
+- [ ] 实现 WebDAV 同步功能
+- [ ] 实现数据导出导入功能（ZIP 打包/解压）
+- [ ] 实现设置页面（语言切换、API Key、WebDAV 配置）
+- [ ] 响应式设计优化
+- [ ] Web/PWA 功能测试
+- [ ] 移动端测试
