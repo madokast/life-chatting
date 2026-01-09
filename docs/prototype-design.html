@@ -132,6 +132,263 @@
             margin: 1rem 0;
         }
 
+        /* 日记容器样式 */
+        .diary-container {
+            width: 100%;
+            max-width: 800px;
+            padding: 1rem;
+        }
+
+        /* 日记条目样式 */
+        .diary-item {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        /* 日记头部样式 */
+        .diary-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.75rem;
+        }
+
+        .diary-time {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        /* 菜单按钮样式 */
+        .diary-menu {
+            position: relative;
+        }
+
+        .menu-btn {
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            color: #666;
+            padding: 0.25rem;
+            border-radius: 4px;
+        }
+
+        .menu-btn:hover {
+            background-color: #f0f0f0;
+        }
+
+        /* 菜单选项样式 */
+        .menu-options {
+            position: absolute;
+            right: 0;
+            top: 100%;
+            background-color: #fff;
+            border: 1px solid #e0e0e0;
+            border-radius: 4px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            min-width: 120px;
+            z-index: 10;
+            display: none;
+        }
+
+        .diary-menu:hover .menu-options {
+            display: block;
+        }
+
+        .menu-item {
+            padding: 0.75rem 1rem;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background-color 0.2s ease;
+        }
+
+        .menu-item:hover {
+            background-color: #f0f0f0;
+        }
+
+        /* 日记内容样式 */
+        .diary-content {
+            line-height: 1.6;
+        }
+
+        /* 折叠内容样式 */
+        .diary-content.collapsed {
+            max-height: 120px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .expand-indicator {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 0 0.5rem;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        /* 单张图片日记样式 */
+        .diary-content.with-single-image {
+            display: flex;
+            gap: 1rem;
+            align-items: flex-start;
+        }
+
+        .text-content {
+            flex: 1;
+        }
+
+        .image-container.single-image {
+            width: 100px;
+            height: 100px;
+            flex-shrink: 0;
+            overflow: hidden;
+            border-radius: 4px;
+        }
+
+        .image-container.single-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* 图片网格样式 */
+        .images-grid {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 0.75rem;
+        }
+
+        /* 折叠状态的图片网格 */
+        .images-grid.collapsed-images {
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        /* 展开状态的图片网格 */
+        .images-grid.expanded-images {
+            flex-wrap: wrap;
+        }
+
+        /* 单个图片项样式 */
+        .image-item {
+            width: 80px;
+            height: 80px;
+            overflow: hidden;
+            border-radius: 4px;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        .image-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.2s ease;
+        }
+
+        .image-item:hover img {
+            transform: scale(1.05);
+        }
+
+        /* 更多图片指示器 */
+        .more-images {
+            width: 80px;
+            height: 80px;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 4px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        /* 图片全屏预览样式 */
+        .image-preview {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            display: none;
+        }
+
+        .image-preview.active {
+            display: flex;
+        }
+
+        .close-preview {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 2rem;
+            cursor: pointer;
+            z-index: 1001;
+        }
+
+        .preview-image {
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            /* 移动端单张图片样式 */
+            .diary-content.with-single-image {
+                flex-direction: column;
+            }
+
+            .image-container.single-image {
+                width: 100px;
+                height: 100px;
+            }
+
+            /* 移动端图片项样式 */
+            .image-item {
+                width: 60px;
+                height: 60px;
+            }
+
+            .more-images {
+                width: 60px;
+                height: 60px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            /* 小屏设备日记条目样式 */
+            .diary-item {
+                padding: 0.75rem;
+            }
+
+            /* 小屏设备图片项样式 */
+            .image-item {
+                width: 50px;
+                height: 50px;
+            }
+
+            .more-images {
+                width: 50px;
+                height: 50px;
+                font-size: 1.2rem;
+            }
+        }
+
         /* 内容卡片样式 */
         .content-card {
             background-color: #fff;
@@ -156,21 +413,165 @@
 
         <!-- 主内容区域 -->
         <main class="main-content">
-            <div class="content-card">
-                <h1>欢迎使用 Life Chatting</h1>
-                <p>一个融合日记记录与 AI 智能对话的人生管理应用</p>
+            <div class="diary-container">
+                <h1>日记页面</h1>
                 
-                <!-- 测试图片 -->
-                <img src="https://cdn.pixabay.com/photo/2016/11/14/16/20/snowflake-1823942_640.jpg" alt="test-image" class="test-image">
+                <!-- 日记条目 1: 基本文本日记 -->
+                <div class="diary-item">
+                    <div class="diary-header">
+                        <span class="diary-time">2025-12-31 14:15:16</span>
+                        <div class="diary-menu">
+                            <button class="menu-btn">⋮</button>
+                            <div class="menu-options">
+                                <div class="menu-item">删除</div>
+                                <div class="menu-item">修改</div>
+                                <div class="menu-item">聊天</div>
+                                <div class="menu-item">折叠</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="diary-content">
+                        <p>这是一条基本的文本日记，用于展示日记的基本结构。日记内容简洁明了，记录了生活中的点滴。</p>
+                    </div>
+                </div>
                 
-                <p>本原型展示了应用的基本布局结构，包括：</p>
-                <ul>
-                    <li>左侧抽屉菜单（桌面端）</li>
-                    <li>底部导航栏（移动端）</li>
-                    <li>响应式设计，适配不同屏幕尺寸</li>
-                </ul>
+                <!-- 日记条目 2: 长文本日记 -->
+                <div class="diary-item">
+                    <div class="diary-header">
+                        <span class="diary-time">2025-12-30 10:30:45</span>
+                        <div class="diary-menu">
+                            <button class="menu-btn">⋮</button>
+                            <div class="menu-options">
+                                <div class="menu-item">删除</div>
+                                <div class="menu-item">修改</div>
+                                <div class="menu-item">聊天</div>
+                                <div class="menu-item">折叠</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="diary-content collapsed">
+                        <p>这是一条长文本日记，内容超过3行。这是第一条内容，用于测试自动折叠功能。</p>
+                        <p>这是第二条内容，继续测试折叠功能。</p>
+                        <p>这是第三条内容，即将达到折叠阈值。</p>
+                        <p>这是第四条内容，超过3行后会被折叠。</p>
+                        <p>这是第五条内容，用于测试展开后的完整显示。</p>
+                        <div class="expand-indicator">...</div>
+                    </div>
+                </div>
+                
+                <!-- 日记条目 3: 单张图片日记 -->
+                <div class="diary-item">
+                    <div class="diary-header">
+                        <span class="diary-time">2025-12-29 16:20:30</span>
+                        <div class="diary-menu">
+                            <button class="menu-btn">⋮</button>
+                            <div class="menu-options">
+                                <div class="menu-item">删除</div>
+                                <div class="menu-item">修改</div>
+                                <div class="menu-item">聊天</div>
+                                <div class="menu-item">折叠</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="diary-content with-single-image">
+                        <div class="text-content">
+                            <p>这是一条包含单张图片的日记，图片显示在内容右侧，占据3行高度。</p>
+                        </div>
+                        <div class="image-container single-image">
+                            <img src="https://cdn.pixabay.com/photo/2016/11/14/16/20/snowflake-1823942_640.jpg" alt="Single image">
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 日记条目 4: 多张图片日记 -->
+                <div class="diary-item">
+                    <div class="diary-header">
+                        <span class="diary-time">2025-12-28 09:15:20</span>
+                        <div class="diary-menu">
+                            <button class="menu-btn">⋮</button>
+                            <div class="menu-options">
+                                <div class="menu-item">删除</div>
+                                <div class="menu-item">修改</div>
+                                <div class="menu-item">聊天</div>
+                                <div class="menu-item">折叠</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="diary-content">
+                        <p>这是一条包含多张图片的日记，图片将在内容下方水平铺开显示。</p>
+                        <div class="images-grid collapsed-images">
+                            <div class="image-item">
+                                <img src="https://cdn.pixabay.com/photo/2016/11/14/16/20/snowflake-1823942_640.jpg" alt="Image 1">
+                            </div>
+                            <div class="image-item">
+                                <img src="https://cdn.pixabay.com/photo/2016/11/14/16/20/snowflake-1823942_640.jpg" alt="Image 2">
+                            </div>
+                            <div class="image-item">
+                                <img src="https://cdn.pixabay.com/photo/2016/11/14/16/20/snowflake-1823942_640.jpg" alt="Image 3">
+                            </div>
+                            <div class="image-item">
+                                <img src="https://cdn.pixabay.com/photo/2016/11/14/16/20/snowflake-1823942_640.jpg" alt="Image 4">
+                            </div>
+                            <div class="image-item">
+                                <img src="https://cdn.pixabay.com/photo/2016/11/14/16/20/snowflake-1823942_640.jpg" alt="Image 5">
+                            </div>
+                            <div class="more-images">...</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 日记条目 5: 展开状态的多图日记 -->
+                <div class="diary-item">
+                    <div class="diary-header">
+                        <span class="diary-time">2025-12-27 15:45:30</span>
+                        <div class="diary-menu">
+                            <button class="menu-btn">⋮</button>
+                            <div class="menu-options">
+                                <div class="menu-item">删除</div>
+                                <div class="menu-item">修改</div>
+                                <div class="menu-item">聊天</div>
+                                <div class="menu-item">折叠</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="diary-content">
+                        <p>这是一条展开状态的多图日记，所有图片都水平铺开，超出部分自然换行。</p>
+                        <div class="images-grid expanded-images">
+                            <div class="image-item">
+                                <img src="https://cdn.pixabay.com/photo/2016/11/14/16/20/snowflake-1823942_640.jpg" alt="Image 1">
+                            </div>
+                            <div class="image-item">
+                                <img src="https://cdn.pixabay.com/photo/2016/11/14/16/20/snowflake-1823942_640.jpg" alt="Image 2">
+                            </div>
+                            <div class="image-item">
+                                <img src="https://cdn.pixabay.com/photo/2016/11/14/16/20/snowflake-1823942_640.jpg" alt="Image 3">
+                            </div>
+                            <div class="image-item">
+                                <img src="https://cdn.pixabay.com/photo/2016/11/14/16/20/snowflake-1823942_640.jpg" alt="Image 4">
+                            </div>
+                            <div class="image-item">
+                                <img src="https://cdn.pixabay.com/photo/2016/11/14/16/20/snowflake-1823942_640.jpg" alt="Image 5">
+                            </div>
+                            <div class="image-item">
+                                <img src="https://cdn.pixabay.com/photo/2016/11/14/16/20/snowflake-1823942_640.jpg" alt="Image 6">
+                            </div>
+                            <div class="image-item">
+                                <img src="https://cdn.pixabay.com/photo/2016/11/14/16/20/snowflake-1823942_640.jpg" alt="Image 7">
+                            </div>
+                            <div class="image-item">
+                                <img src="https://cdn.pixabay.com/photo/2016/11/14/16/20/snowflake-1823942_640.jpg" alt="Image 8">
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </main>
+        
+        <!-- 图片全屏预览 -->
+        <div class="image-preview">
+            <button class="close-preview">×</button>
+            <img src="" alt="Full screen image" class="preview-image">
+        </div>
     </div>
 
     <!-- 底部导航栏 -->
