@@ -10,36 +10,20 @@
 - **📤 数据管理**：本地优先存储，支持数据导出导入，可配置 WebDAV 服务进行手动同步
 - **🚀 开箱即用**：无需注册，无需配置，打开即用
 
-## 技术栈
+## 技术实现
 
 本项目提供两个实现版本，功能对等，用户可根据需求选择：
 
-### Capacitor 版本
+### 双实现方案
 
-- **前端框架**：Vite + React + TypeScript
-- **跨平台框架**：Capacitor
-- **UI 框架**：React + Tailwind CSS + shadcn/ui
-- **状态管理**：Zustand
-- **本地存储**：IndexedDB (浏览器) / @capacitor/filesystem (移动端)
-- **PWA 支持**：vite-plugin-pwa
-- **国际化**：i18next + react-i18next
-- **AI 集成**：客户端直接调用 OpenAI/Anthropic API
-- **数据同步**：WebDAV 客户端直连
-- **文件处理**：JSZip (打包/解压 ZIP)
-- **路由**：React Router v6
+- **Capacitor 版本**：基于 Vite + React + TypeScript 开发
+- **Flutter 版本**：基于 Flutter + Dart 开发
 
-### Flutter 版本
+### 核心特性
 
-- **前端框架**：Flutter + Dart
-- **UI 框架**：Material Design / Cupertino
-- **状态管理**：Provider / Riverpod
-- **本地存储**：sqflite / hive
-- **PWA 支持**：flutter_web
-- **国际化**：flutter_localizations
-- **AI 集成**：客户端直接调用 OpenAI/Anthropic API
-- **数据同步**：http 包 + WebDAV 协议
-- **文件处理**：archive 包 (打包/解压 ZIP)
-- **路由**：go_router
+1. **PWA 模式**：两个版本都支持 PWA 打包，可部署为静态网页，支持离线使用
+2. **移动端打包**：两个版本都支持 Android 和 iOS 打包，可安装到手机桌面
+3. **原生存储**：移动端采用原生文件系统存储数据，保证本地存储的可靠性
 
 ## 架构设计
 
@@ -149,17 +133,10 @@ life-chatting/
 
 #### 存储方案
 
-**Capacitor 版本：**
-- **浏览器环境**：所有数据存储在 IndexedDB 中，容量可达数百 MB
+- **浏览器环境**：使用 IndexedDB 存储所有数据，容量可达数百 MB
 - **移动端**：
-  - 文本数据：IndexedDB 或 SQLite
-  - 多媒体文件：通过 @capacitor/filesystem 访问原生文件系统，容量更大更可靠
-
-**Flutter 版本：**
-- **Web 环境**：使用 sqflite_web 或 hive 存储数据
-- **移动端**：
-  - 文本数据：sqflite 或 hive
-  - 多媒体文件：通过 path_provider 访问原生文件系统，容量更大更可靠
+  - 文本数据：使用本地数据库（IndexedDB 或 SQLite）
+  - 多媒体文件：通过原生文件系统 API 访问，容量更大更可靠
 
 ## 开发计划
 
