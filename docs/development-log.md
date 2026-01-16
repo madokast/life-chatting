@@ -164,3 +164,86 @@
 
 **最后更新时间**：2026-01-12
 **更新者**：系统自动生成
+
+---
+
+## 2026-01-17 Post 组件和 i18n 系统开发
+
+### Post 组件开发
+- 创建了 Post 组件用于显示日记条目
+- 实现了时间戳转换功能（秒 → 本地时区格式 YYYY-MM-DD HH:mm:ss）
+- 实现了文本选择控制（日期和编号不可选，内容可选）
+- 使用 styled-components 实现样式
+- 支持浅色/深色主题切换
+- 实现了响应式布局（移动端全宽，桌面端居中）
+
+### Drawer 组件开发
+- 创建了左侧抽屉菜单组件
+- 实现了滑入动画效果
+- 重构为三部分结构：
+  - DrawerHeader：显示日记数量（15 条）
+  - DrawerBody：主体内容区域
+  - DrawerFooter：显示应用名称
+- 创建了 ToggleItem 组件用于开关型选择项
+- 实现了外观切换（Light/Dark）
+- 实现了语言切换（中文/En）
+
+### i18n 国际化系统
+- 创建了 i18n 单例类
+- 实现了中英文翻译支持
+- 添加了订阅机制，语言切换时自动更新界面
+- 翻译文件包含：app、nav、drawer 等模块
+- 添加了日记数量和应用名称的翻译
+
+### UserConfig 配置单例
+- 创建了配置单例类
+- 实现了外观（appearance）和语言（language）管理
+- 支持本地存储持久化（localStorage）
+- 提供了订阅机制，配置变化时自动通知订阅者
+
+### Header 组件
+- 创建了专门的头部组件
+- 包含菜单按钮（≡）和标题
+- 使用 styled-components 实现样式
+- 提高了代码组织性和可维护性
+
+### 技术选型
+- 使用 styled-components 实现 CSS-in-JS
+- 使用 TypeScript 接口定义组件 props
+- 采用单例模式管理全局配置
+- 使用 React Hooks（useState、useEffect）管理状态
+- 使用 localStorage 实现配置持久化
+
+### 遇到的问题和解决方案
+- **问题**：TypeScript 编译错误 `The requested module '/src/i18n/locales.ts' does not provide an export named 'Language'`
+- **解决方案**：从 tsconfig.app.json 中移除 `verbatimModuleSyntax` 选项
+- **问题**：菜单按钮位置不够明显
+- **解决方案**：增大按钮尺寸（44px）、字体大小（1.5rem）、添加 z-index 确保在最上层
+
+### 代码提交
+- feat: add Post component with styled-components and theme support
+- feat: improve Post component with timestamp, text selection and responsive layout
+- feat: add left drawer menu and i18n internationalization
+- refactor: create Header component to improve code organization
+- refactor: restructure Drawer component into three parts
+
+### 开发总结
+- ✅ Post 组件开发完成，支持主题切换和响应式布局
+- ✅ Drawer 组件开发完成，重构为三部分结构
+- ✅ i18n 国际化系统完成，支持中英文切换
+- ✅ UserConfig 配置单例完成，支持持久化
+- ✅ Header 组件开发完成，代码组织更清晰
+- ✅ 解决了 TypeScript 编译问题
+- ✅ 解决了菜单按钮显示问题
+
+### 后续开发计划
+- 实现日记列表的真实数据获取
+- 实现日记的增删改查功能
+- 实现 Footer 组件的导航功能
+- 添加更多 Drawer 菜单项
+- 完善错误处理和边界情况
+
+---
+
+**最后更新时间**：2026-01-17
+**更新者**：AI Assistant
