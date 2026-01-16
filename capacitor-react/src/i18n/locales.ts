@@ -1,0 +1,59 @@
+export type Language = 'zh' | 'en'
+
+export interface Translations {
+  app: {
+    title: string
+  }
+  nav: {
+    diary: string
+    chat: string
+    settings: string
+  }
+  drawer: {
+    appearance: string
+    appearanceLight: string
+    appearanceDark: string
+    language: string
+    languageZh: string
+    languageEn: string
+  }
+}
+
+export const locales: Record<Language, Translations> = {
+  zh: {
+    app: {
+      title: 'Life Chatting'
+    },
+    nav: {
+      diary: '日记',
+      chat: '聊天',
+      settings: '设置'
+    },
+    drawer: {
+      appearance: '显示样式',
+      appearanceLight: '浅色',
+      appearanceDark: '深色',
+      language: '语言',
+      languageZh: '中文',
+      languageEn: 'En'
+    }
+  },
+  en: {
+    app: {
+      title: 'Life Chatting'
+    },
+    nav: {
+      diary: 'Diary',
+      chat: 'Chat',
+      settings: 'Settings'
+    },
+    drawer: {
+      appearance: 'Appearance',
+      appearanceLight: 'Light',
+      appearanceDark: 'Dark',
+      language: 'Language',
+      languageZh: '中文',
+      languageEn: 'En'
+    }
+  }
+}

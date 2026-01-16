@@ -1,5 +1,8 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Post } from './components/Post'
+import { Drawer } from './components/Drawer'
+import { i18n } from './i18n/i18n'
+import { userConfig, Appearance } from './config/UserConfig'
 
 interface PostData {
   idx: number
@@ -36,34 +39,63 @@ const samplePosts: PostData[] = [
 ]
 
 function App() {
-  const [appearance, setAppearance] = useState<'light' | 'dark'>('light')
+  const [appearance, setAppearance] = useState<Appearance>(userConfig.getAppearance())
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false)
+  const [, forceUpdate] = useState({})
 
-  const toggleAppearance = () => {
-    setAppearance(prev => prev === 'light' ? 'dark' : 'light')
+  useEffect(() => {
+    i18n.setLanguage(userConfig.getLanguage())
+    
+    const unsubscribeConfig = userConfig.subscribe(() => {
+      setAppearance(userConfig.getAppearance())
+      forceUpdate({})
+    })
+    
+    const unsubscribeI18n = i18n.subscribe(() => {
+      forceUpdate({})
+    })
+    
+    return () => {
+      unsubscribeConfig()
+      unsubscribeI18n()
+    }
+  }, [])
+
+  const toggleDrawer = () => {
+    setIsDrawerOpen(prev => !prev)
   }
 
   return (
     <div className="app-container" style={{ backgroundColor: appearance === 'light' ? '#f5f5f5' : '#0d0d0d' }}>
       <header className="header">
-        <h1>Life Chatting</h1>
         <button 
-          onClick={toggleAppearance}
+          onClick={toggleDrawer}
+          className="menu-button"
           style={{
             position: 'absolute',
-            right: '1rem',
+            left: '1rem',
             top: '50%',
             transform: 'translateY(-50%)',
-            padding: '0.5rem 1rem',
+            padding: '0.5rem',
             backgroundColor: 'rgba(255,255,255,0.2)',
             color: 'white',
             border: 'none',
             borderRadius: '4px',
             cursor: 'pointer',
-            fontSize: '0.9rem'
+            fontSize: '1.5rem',
+            fontWeight: 'bold',
+            width: '44px',
+            height: '44px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 10,
+            lineHeight: 1
           }}
         >
-          {appearance === 'light' ? '🌙 Dark' : '☀️ Light'}
+          ≡
         </button>
+        <h1 style={{ margin: 0 }}>{i18n.t('app.title')}</h1>
       </header>
 
       <main className="main-content">
@@ -82,15 +114,21 @@ function App() {
 
       <footer className="footer" style={{ backgroundColor: appearance === 'light' ? '#fff' : '#1a1a1a', borderTopColor: appearance === 'light' ? '#e0e0e0' : '#333333' }}>
         <div className="nav-item">
-          <span>日记</span>
+          <span>{i18n.t('nav.diary')}</span>
         </div>
         <div className="nav-item">
-          <span>聊天</span>
+          <span>{i18n.t('nav.chat')}</span>
         </div>
         <div className="nav-item">
-          <span>设置</span>
+          <span>{i18n.t('nav.settings')}</span>
         </div>
       </footer>
+
+      <Drawer 
+        isOpen={isDrawerOpen} 
+        onClose={() => setIsDrawerOpen(false)}
+        appearance={appearance}
+      />
     </div>
   )
 }
