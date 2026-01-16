@@ -26,29 +26,6 @@ body {
   background-color: #fff;
 }
 
-/* 顶部导航栏 */
-.header {
-  background-color: #4a6fa5;
-  color: white;
-  padding: 1rem;
-  text-align: center;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  position: relative;
-}
-
-.menu-button {
-  transition: background-color 0.2s ease;
-}
-
-.menu-button:hover {
-  background-color: rgba(255, 255, 255, 0.3);
-}
-
-.header h1 {
-  font-size: 1.5rem;
-  font-weight: 600;
-}
-
 /* 主要内容区域 */
 .main-content {
   flex: 1;

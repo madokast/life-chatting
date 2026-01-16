@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Post } from './components/Post'
+import { Header } from './components/Header'
 import { Drawer } from './components/Drawer'
 import { i18n } from './i18n/i18n'
 import { userConfig, Appearance } from './config/UserConfig'
@@ -67,36 +68,11 @@ function App() {
 
   return (
     <div className="app-container" style={{ backgroundColor: appearance === 'light' ? '#f5f5f5' : '#0d0d0d' }}>
-      <header className="header">
-        <button 
-          onClick={toggleDrawer}
-          className="menu-button"
-          style={{
-            position: 'absolute',
-            left: '1rem',
-            top: '50%',
-            transform: 'translateY(-50%)',
-            padding: '0.5rem',
-            backgroundColor: 'rgba(255,255,255,0.2)',
-            color: 'white',
-            border: 'none',
-            borderRadius: '4px',
-            cursor: 'pointer',
-            fontSize: '1.5rem',
-            fontWeight: 'bold',
-            width: '44px',
-            height: '44px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            zIndex: 10,
-            lineHeight: 1
-          }}
-        >
-          ≡
-        </button>
-        <h1 style={{ margin: 0 }}>{i18n.t('app.title')}</h1>
-      </header>
+      <Header 
+        onMenuClick={toggleDrawer}
+        title={i18n.t('app.title')}
+        appearance={appearance}
+      />
 
       <main className="main-content">
         <div className="posts-container">
