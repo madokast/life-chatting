@@ -1,40 +1,86 @@
-import './App.css'
+import { useState } from 'react'
+import { Post } from './components/Post'
+
+interface PostData {
+  idx: number
+  created_at: string
+  content: string
+}
+
+const samplePosts: PostData[] = [
+  {
+    idx: 1,
+    created_at: '2025-01-01 14:15:16',
+    content: '今天天气真好，阳光明媚。决定出去走走，感受大自然的美好。'
+  },
+  {
+    idx: 2,
+    created_at: '2025-01-02 09:30:45',
+    content: '开始学习 React 和 TypeScript，感觉收获很大。今天完成了一个小项目，很有成就感。'
+  },
+  {
+    idx: 3,
+    created_at: '2025-01-03 18:45:22',
+    content: '和朋友一起去看电影，是一部非常感人的剧情片。看完后我们聊了很久，关于人生、关于梦想。'
+  },
+  {
+    idx: 4,
+    created_at: '2025-01-04 21:20:10',
+    content: '今天整理了房间，发现了很多旧照片。回忆涌上心头，那些美好的时光仿佛就在昨天。'
+  },
+  {
+    idx: 5,
+    created_at: '2025-01-05 16:00:33',
+    content: '尝试做了一道新菜，味道还不错！准备下次再改进一下配方，希望能做得更好。'
+  }
+]
 
 function App() {
+  const [appearance, setAppearance] = useState<'light' | 'dark'>('light')
+
+  const toggleAppearance = () => {
+    setAppearance(prev => prev === 'light' ? 'dark' : 'light')
+  }
+
   return (
-    <div className="app-container">
-      {/* 顶部导航栏 */}
+    <div className="app-container" style={{ backgroundColor: appearance === 'light' ? '#f5f5f5' : '#0d0d0d' }}>
       <header className="header">
         <h1>Life Chatting</h1>
+        <button 
+          onClick={toggleAppearance}
+          style={{
+            position: 'absolute',
+            right: '1rem',
+            top: '50%',
+            transform: 'translateY(-50%)',
+            padding: '0.5rem 1rem',
+            backgroundColor: 'rgba(255,255,255,0.2)',
+            color: 'white',
+            border: 'none',
+            borderRadius: '4px',
+            cursor: 'pointer',
+            fontSize: '0.9rem'
+          }}
+        >
+          {appearance === 'light' ? '🌙 Dark' : '☀️ Light'}
+        </button>
       </header>
 
-      {/* 主要内容区域 */}
       <main className="main-content">
-        <div className="content-section">
-          <h2>欢迎使用 Life Chatting</h2>
-          <p>一个融合日记记录与 AI 智能对话的人生管理应用</p>
-          
-          <div className="features">
-            <div className="feature-card">
-              <h3>📝 日记记录</h3>
-              <p>便捷撰写日记，支持附件上传，时间线展示</p>
-            </div>
-            
-            <div className="feature-card">
-              <h3>🤖 AI 智能对话</h3>
-              <p>AI 阅读用户日记，提供个性化人生建议</p>
-            </div>
-            
-            <div className="feature-card">
-              <h3>🔒 本地优先</h3>
-              <p>所有数据默认存储在本地，保护隐私安全</p>
-            </div>
-          </div>
+        <div className="posts-container">
+          {samplePosts.map(post => (
+            <Post
+              key={post.idx}
+              idx={post.idx}
+              created_at={post.created_at}
+              content={post.content}
+              appearance={appearance}
+            />
+          ))}
         </div>
       </main>
 
-      {/* 底部导航栏 */}
-      <footer className="footer">
+      <footer className="footer" style={{ backgroundColor: appearance === 'light' ? '#fff' : '#1a1a1a', borderTopColor: appearance === 'light' ? '#e0e0e0' : '#333333' }}>
         <div className="nav-item">
           <span>日记</span>
         </div>

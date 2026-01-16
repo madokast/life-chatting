@@ -43,53 +43,13 @@ body {
 /* 主要内容区域 */
 .main-content {
   flex: 1;
-  padding: 1rem;
+  padding: 0;
   overflow-y: auto;
 }
 
-.content-section {
+.posts-container {
   max-width: 800px;
   margin: 0 auto;
-  text-align: center;
-}
-
-.content-section h2 {
-  font-size: 1.3rem;
-  margin-bottom: 1rem;
-  color: #333;
-}
-
-.content-section p {
-  font-size: 1rem;
-  color: #666;
-  margin-bottom: 2rem;
-}
-
-/* 功能卡片 */
-.features {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.feature-card {
-  background-color: #f8f9fa;
-  padding: 1.5rem;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-  text-align: left;
-}
-
-.feature-card h3 {
-  font-size: 1.1rem;
-  margin-bottom: 0.5rem;
-  color: #333;
-}
-
-.feature-card p {
-  font-size: 0.9rem;
-  color: #666;
-  margin-bottom: 0;
 }
 
 /* 底部导航栏 */
@@ -129,27 +89,7 @@ body {
   }
   
   .main-content {
-    padding: 2rem;
-  }
-  
-  .content-section h2 {
-    font-size: 1.8rem;
-  }
-  
-  .content-section p {
-    font-size: 1.1rem;
-  }
-  
-  .features {
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: 1.5rem;
-  }
-  
-  .feature-card {
-    flex: 1;
-    min-width: 200px;
-    max-width: 300px;
+    padding: 0;
   }
   
   .nav-item {
@@ -163,15 +103,5 @@ body {
     max-width: 1200px;
     margin: 0 auto;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-  }
-  
-  .features {
-    gap: 2rem;
-  }
-  
-  .feature-card {
-    min-width: 250px;
-    max-width: 350px;
-    padding: 2rem;
   }
 }
