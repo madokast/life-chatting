@@ -48,8 +48,7 @@ body {
 }
 
 .posts-container {
-  max-width: 800px;
-  margin: 0 auto;
+  width: 100%;
 }
 
 /* 底部导航栏 */
@@ -103,5 +102,10 @@ body {
     max-width: 1200px;
     margin: 0 auto;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  }
+  
+  .posts-container {
+    max-width: 800px;
+    margin: 0 auto;
   }
 }
