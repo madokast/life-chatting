@@ -10,6 +10,8 @@ export interface Translations {
     settings: string
   }
   drawer: {
+    postCount: string
+    appName: string
     appearance: string
     appearanceLight: string
     appearanceDark: string
@@ -30,6 +32,8 @@ export const locales: Record<Language, Translations> = {
       settings: '设置'
     },
     drawer: {
+      postCount: '日记 15 条',
+      appName: 'Life Chatting',
       appearance: '显示样式',
       appearanceLight: '浅色',
       appearanceDark: '深色',
@@ -48,6 +52,8 @@ export const locales: Record<Language, Translations> = {
       settings: 'Settings'
     },
     drawer: {
+      postCount: 'Diary 15 posts',
+      appName: 'Life Chatting',
       appearance: 'Appearance',
       appearanceLight: 'Light',
       appearanceDark: 'Dark',
