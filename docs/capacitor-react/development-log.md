@@ -301,6 +301,35 @@
 
 ---
 
+## 2026-01-24 虚拟列表滚动和加载问题修复
+
+### 问题分析
+- 虚拟列表无法滚动，滚动事件未触发
+- 加载机制无法正确判断滚动位置
+- 核心问题：List组件没有成为真正的滚动容器
+
+### 修复内容
+- 修改了 `PostsListWrapper` 的 `overflow` 属性，从 `hidden` 改为 `auto`
+- 给 List 组件添加了明确的 `style` 属性，设置 `height: window.innerHeight - 120` 和 `width: '100%'`
+- 修正了 `onScroll` 事件处理，使用原生DOM事件来判断滚动位置
+
+### 技术实现细节
+- 确保 List 组件成为真正的滚动容器，拥有明确的高度和宽度
+- 使用 `event.currentTarget.scrollTop`、`event.currentTarget.scrollHeight` 和 `event.currentTarget.clientHeight` 计算滚动位置
+- 当距离底部不足 300px 时触发加载更多数据
+- 修复后滚动事件能够正常触发，加载机制能够正确判断滚动位置
+
+### 代码提交
+- fix: 修复虚拟列表滚动和加载问题
+
+### 开发总结
+- ✅ 虚拟列表滚动问题修复完成
+- ✅ 加载机制能够正确判断滚动位置
+- ✅ 构建成功，无TypeScript错误
+- ✅ 开发服务器运行正常
+
+---
+
 **最后更新时间**：2026-01-24
 **更新者**：AI Assistant
 
