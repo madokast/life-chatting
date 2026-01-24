@@ -15,7 +15,7 @@ const PostsContainer = styled.div<{ $appearance: 'light' | 'dark' }>`
 
 const PostsListWrapper = styled.div`
   flex: 1;
-  overflow: hidden;
+  overflow: auto;
 `
 
 const ITEM_ESTIMATED_HEIGHT = 150
@@ -97,6 +97,7 @@ export function Posts() {
     <PostsContainer $appearance={appearance}>
       <PostsListWrapper>
         <List
+          style={{ height: window.innerHeight - 120, width: '100%' }}
           rowCount={posts.length + (loading ? 1 : 0)}
           rowHeight={dynamicRowHeight}
           rowComponent={Row}
@@ -106,7 +107,7 @@ export function Posts() {
           onRowsRendered={() => {
             // 不再在这里触发加载
           }}
-          onScroll={(event) => {
+          onScroll={(event: React.UIEvent<HTMLDivElement>) => {
             const listElement = event.currentTarget
             const scrollTop = listElement.scrollTop
             const scrollHeight = listElement.scrollHeight
