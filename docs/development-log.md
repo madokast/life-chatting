@@ -306,6 +306,60 @@
 
 ---
 
+## 2026-01-24 System 主题支持开发
+
+### System 主题支持
+- 扩展 Appearance 类型为 'light' | 'dark' | 'system'
+- 默认主题改为 'system'（跟随系统）
+- 在 ThemeContext.tsx 中封装系统主题相关方法：
+  - getSystemTheme(): 获取系统主题（light/dark）
+  - addSystemThemeListener(): 添加系统主题监听
+  - removeSystemThemeListener(): 移除系统主题监听
+  - refreshTheme(): 刷新主题（统一入口）
+- 实现系统主题自动检测和应用
+- 实现系统主题变化监听，自动更新所有子组件
+- 实现应用唤醒时重新检测系统主题（使用 Capacitor App）
+- 更新 Drawer.tsx 支持三种主题模式循环切换（light → dark → system → light）
+- 更新国际化文件，添加 appearanceSystem 翻译（中文："跟随系统"，英文："System"）
+- 安装 @capacitor/app 依赖用于监听应用唤醒事件
+
+### 技术实现细节
+- 使用 window.matchMedia('(prefers-color-scheme: dark)') 检测系统主题
+- 使用 addEventListener 监听系统主题变化
+- 使用 Capacitor App.addListener('resume') 监听应用唤醒事件
+- refreshTheme 作为统一入口，在以下三个事件中调用：
+  - 系统主题监听钩子
+  - 应用唤醒
+  - 用户主动修改主题
+- 所有子组件保持不变，仍然只接收 light/dark 主题，无需感知 system 模式
+
+### 代码提交
+- feat: 添加 System 主题支持
+
+### 开发总结
+- ✅ System 主题支持完成
+- ✅ 主题自动跟随系统
+- ✅ 系统主题变化时自动更新所有子组件
+- ✅ 应用唤醒时重新检测系统主题
+- ✅ 所有子组件保持不变，无需修改
+- ✅ 构建成功，无 TypeScript 错误
+- ✅ 开发服务器运行正常
+
+### 后续开发计划
+- 实现聊天消息的真实数据存储
+- 实现聊天消息的持久化
+- 实现日记列表的真实数据获取
+- 实现日记的增删改查功能
+- 完善 AI 对话功能
+
+---
+
+**最后更新时间**：2026-01-24
+**更新者**：AI Assistant
+
+
+---
+
 ## 2026-01-24 日记输入功能和视图状态优化
 
 ### PostInput 组件开发
