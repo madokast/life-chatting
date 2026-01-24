@@ -37,48 +37,14 @@ body {
   width: 100%;
 }
 
-/* 底部导航栏 */
-.footer {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  background-color: #fff;
-  border-top: 1px solid #e0e0e0;
-  padding: 1rem 0;
-  position: sticky;
-  bottom: 0;
-  left: 0;
-  right: 0;
-}
-
-.nav-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 0.3rem;
-  cursor: pointer;
-  color: #666;
-  font-size: 0.9rem;
-  transition: color 0.2s;
-}
-
-.nav-item:hover {
-  color: #4a6fa5;
-}
-
 /* 响应式设计 - 平板和桌面 */
 @media (min-width: 768px) {
   .header h1 {
     font-size: 2rem;
   }
-  
+
   .main-content {
     padding: 0;
-  }
-  
-  .nav-item {
-    font-size: 1rem;
   }
 }
 

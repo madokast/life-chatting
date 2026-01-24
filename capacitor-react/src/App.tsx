@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { Posts } from './components/diary/Posts'
 import { Chat } from './components/chat/Chat'
 import { Header } from './components/navigation/Header'
+import { Footer } from './components/navigation/Footer'
 import { Drawer } from './components/navigation/Drawer'
 import { i18n } from './i18n/i18n'
 import { userConfig, Appearance } from './config/UserConfig'
@@ -52,14 +53,11 @@ function App() {
         )}
       </main>
 
-      <footer className="footer" style={{ backgroundColor: appearance === 'light' ? '#fff' : '#1a1a1a', borderTopColor: appearance === 'light' ? '#e0e0e0' : '#333333' }}>
-        <div className="nav-item" onClick={() => setCurrentView('diary')}>
-          <span>{i18n.t('nav.diary')}</span>
-        </div>
-        <div className="nav-item" onClick={() => setCurrentView('chat')}>
-          <span>{i18n.t('nav.chat')}</span>
-        </div>
-      </footer>
+      <Footer
+        currentView={currentView}
+        onViewChange={setCurrentView}
+        appearance={appearance}
+      />
 
       <Drawer 
         isOpen={isDrawerOpen} 
