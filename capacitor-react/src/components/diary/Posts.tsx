@@ -27,6 +27,7 @@ export function Posts() {
   const [loading, setLoading] = useState(false)
   const [hasMore, setHasMore] = useState(true)
   const currentFromIdxRef = useRef<number>(0)
+  const initializedRef = useRef(false)
 
   const dynamicRowHeight = useDynamicRowHeight({
     defaultRowHeight: ITEM_ESTIMATED_HEIGHT,
@@ -43,7 +44,7 @@ export function Posts() {
         setHasMore(false)
       } else {
         setPosts(prev => [...prev, ...newPosts])
-        currentFromIdxRef.current = newPosts[newPosts.length - 1].idx - 1
+        currentFromIdxRef.current = Math.min(...newPosts.map(p => p.idx)) - 1
       }
     } finally {
       setLoading(false)
@@ -77,7 +78,7 @@ export function Posts() {
           idx={post.idx}
           created_at={post.created_at}
           content={post.content}
-          onMeasure={(height) => dynamicRowHeight.setRowHeight(index, height)}
+          onMeasure={(height) => dynamicRowHeight.setRowHeight(post.idx, height)}
         />
       </div>
     )
@@ -87,6 +88,7 @@ export function Posts() {
     const initPosts = async () => {
       const stats = await postService.getStats()
       currentFromIdxRef.current = stats.maxIdx
+      initializedRef.current = true
       await loadMorePosts()
     }
     initPosts()
@@ -103,6 +105,7 @@ export function Posts() {
             posts
           }}
           onRowsRendered={(visibleRows) => {
+            if (!initializedRef.current) return
             const { stopIndex } = visibleRows
             if (stopIndex >= posts.length - 1 - LOAD_MORE_THRESHOLD && hasMore && !loading) {
               loadMorePosts()
