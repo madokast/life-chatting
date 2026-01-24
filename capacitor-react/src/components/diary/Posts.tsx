@@ -19,7 +19,6 @@ const PostsListWrapper = styled.div`
 `
 
 const ITEM_ESTIMATED_HEIGHT = 150
-const LOAD_MORE_THRESHOLD = 5
 
 export function Posts() {
   const { appearance } = useAppearance()
@@ -28,7 +27,6 @@ export function Posts() {
   const [hasMore, setHasMore] = useState(true)
   const currentFromIdxRef = useRef<number>(0)
   const initializedRef = useRef(false)
-  const loadTriggeredRef = useRef(false)
 
   const dynamicRowHeight = useDynamicRowHeight({
     defaultRowHeight: ITEM_ESTIMATED_HEIGHT,
@@ -36,9 +34,8 @@ export function Posts() {
   })
 
   const loadMorePosts = useCallback(async () => {
-    if (loading || !hasMore || loadTriggeredRef.current) return
+    if (loading || !hasMore) return
 
-    loadTriggeredRef.current = true
     setLoading(true)
     try {
       const newPosts = await postService.getPosts(currentFromIdxRef.current, 5)
@@ -50,7 +47,6 @@ export function Posts() {
       }
     } finally {
       setLoading(false)
-      loadTriggeredRef.current = false
     }
   }, [loading, hasMore])
 
@@ -101,16 +97,27 @@ export function Posts() {
     <PostsContainer $appearance={appearance}>
       <PostsListWrapper>
         <List
-          rowCount={hasMore ? posts.length + 1 : posts.length}
+          rowCount={posts.length + (loading ? 1 : 0)}
           rowHeight={dynamicRowHeight}
           rowComponent={Row}
           rowProps={{
             posts
           }}
-          onRowsRendered={(visibleRows) => {
-            if (!initializedRef.current || loadTriggeredRef.current) return
-            const { stopIndex } = visibleRows
-            if (stopIndex >= posts.length - 1 - LOAD_MORE_THRESHOLD && hasMore && !loading) {
+          onRowsRendered={() => {
+            // 不再在这里触发加载
+          }}
+          onScroll={(event) => {
+            const listElement = event.currentTarget
+            const scrollTop = listElement.scrollTop
+            const scrollHeight = listElement.scrollHeight
+            const clientHeight = listElement.clientHeight
+
+            // 距离底部不足 300px 时触发加载
+            if (
+              scrollHeight - (scrollTop + clientHeight) < 300 &&
+              hasMore &&
+              !loading
+            ) {
               loadMorePosts()
             }
           }}
