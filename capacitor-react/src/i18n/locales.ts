@@ -23,6 +23,10 @@ export interface Translations {
     placeholder: string
     send: string
   }
+  post: {
+    placeholder: string
+    add: string
+  }
 }
 
 export const locales: Record<Language, Translations> = {
@@ -48,6 +52,10 @@ export const locales: Record<Language, Translations> = {
     chat: {
       placeholder: '输入消息...',
       send: '发送'
+    },
+    post: {
+      placeholder: '写日记...',
+      add: '添加'
     }
   },
   en: {
@@ -72,6 +80,10 @@ export const locales: Record<Language, Translations> = {
     chat: {
       placeholder: 'Type a message...',
       send: 'Send'
+    },
+    post: {
+      placeholder: 'Write a diary...',
+      add: 'Add'
     }
   }
 }

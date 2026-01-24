@@ -1,5 +1,7 @@
+import { useState } from 'react'
 import styled from 'styled-components'
 import { Post } from './Post'
+import { PostInput } from './PostInput'
 
 export interface PostData {
   idx: number
@@ -42,21 +44,41 @@ export interface PostsProps {
 const PostsContainer = styled.div<{ $appearance: 'light' | 'dark' }>`
   display: flex;
   flex-direction: column;
-  gap: 0;
+  height: 100%;
+  background-color: ${props => props.$appearance === 'light' ? '#f5f5f5' : '#0d0d0d'};
+`
+
+const PostsList = styled.div`
+  flex: 1;
+  overflow-y: auto;
 `
 
 export function Posts({ appearance }: PostsProps) {
+  const [posts, setPosts] = useState<PostData[]>(samplePosts)
+
+  const handleAddPost = (content: string) => {
+    const newPost: PostData = {
+      idx: posts.length > 0 ? Math.max(...posts.map(p => p.idx)) + 1 : 1,
+      created_at: Math.floor(Date.now() / 1000),
+      content
+    }
+    setPosts([newPost, ...posts])
+  }
+
   return (
     <PostsContainer $appearance={appearance}>
-      {samplePosts.map(post => (
-        <Post
-          key={post.idx}
-          idx={post.idx}
-          created_at={post.created_at}
-          content={post.content}
-          appearance={appearance}
-        />
-      ))}
+      <PostsList>
+        {posts.map(post => (
+          <Post
+            key={post.idx}
+            idx={post.idx}
+            created_at={post.created_at}
+            content={post.content}
+            appearance={appearance}
+          />
+        ))}
+      </PostsList>
+      <PostInput onAddPost={handleAddPost} appearance={appearance} />
     </PostsContainer>
   )
 }
