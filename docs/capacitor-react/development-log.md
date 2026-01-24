@@ -363,6 +363,63 @@
 
 ---
 
+## 2026-01-24 日记数据服务化与虚拟列表实现
+
+### 服务层开发
+- 创建了 services 目录和 post.ts 服务文件
+- 定义了数据类型：
+  - PostData：日记数据结构（idx、created_at、content）
+  - PublishingPostData：发布日记数据（content）
+  - PostStats：日记统计信息（total、maxIdx）
+- 实现了 postService 包含三个异步方法：
+  - getStats()：获取总日记数和最大 idx
+  - getPosts(from_idx, size)：批量获取日记（按 idx 倒序，size=5）
+  - publish(data)：发布日记，返回完整 PostData
+- 将 samplePosts 测试数据从 Posts.tsx 移至 post.ts
+
+### 虚拟列表实现
+- 安装了 react-window 和 @types/react-window 依赖
+- 使用 react-window 的 List 组件实现虚拟列表
+- 使用 useDynamicRowHeight 管理动态高度（估计高度 150px）
+- 实现了下滑到底加载更多逻辑（通过 onRowsRendered 回调）
+- handleAddPost 调用 postService.publish，将返回的 PostData 插入列表头部
+
+### Post 组件更新
+- 添加了 onMeasure 回调用于测量真实高度
+- 使用 useEffect 在渲染完成后报告高度
+- 使用 ref 获取 DOM 元素并测量 offsetHeight
+
+### 技术实现细节
+- 使用 react-window 的新版 API（List、RowComponentProps、useDynamicRowHeight）
+- 动态高度管理：先使用估计高度，渲染完成后更新为真实高度
+- 分页加载：每次加载 5 条，按 idx 倒序获取
+- 发布新日记后直接插入列表头部（可能导致跳动，后续优化）
+
+### 代码提交
+- feat: 实现日记数据服务化与虚拟列表
+
+### 开发总结
+- ✅ 服务层开发完成，数据逻辑与 UI 分离
+- ✅ 虚拟列表实现完成，提升大量数据渲染性能
+- ✅ 动态高度管理完成，支持不同内容长度
+- ✅ 分页加载实现完成，支持无限滚动
+- ✅ 发布日记功能完成，支持异步添加
+- ✅ 构建成功，无 TypeScript 错误
+
+### 后续开发计划
+- 优化发布日记后的跳动问题
+- 实现日记列表的持久化存储
+- 实现日记的编辑和删除功能
+- 实现聊天消息的真实数据存储
+- 完善 AI 对话功能
+
+---
+
+**最后更新时间**：2026-01-24
+**更新者**：AI Assistant
+
+---
+
 ## 2026-01-24 System 主题支持开发
 
 ### System 主题支持
