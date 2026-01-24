@@ -1,3 +1,4 @@
+import { useRef, useEffect } from 'react'
 import styled from 'styled-components'
 import { useAppearance } from '../../context/ThemeContext'
 
@@ -5,6 +6,7 @@ export interface PostProps {
   idx: number
   created_at: number
   content: string
+  onMeasure?: (height: number) => void
 }
 
 const formatTimestamp = (timestamp: number): string => {
@@ -58,12 +60,19 @@ const Content = styled.div<{ $appearance: 'light' | 'dark' }>`
   -ms-user-select: text;
 `
 
-export function Post({ idx, created_at, content }: PostProps) {
+export function Post({ idx, created_at, content, onMeasure }: PostProps) {
   const { appearance } = useAppearance()
   const formattedDate = formatTimestamp(created_at)
-  
+  const containerRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    if (containerRef.current && onMeasure) {
+      onMeasure(containerRef.current.offsetHeight)
+    }
+  }, [content, onMeasure])
+
   return (
-    <PostContainer $appearance={appearance}>
+    <PostContainer ref={containerRef} $appearance={appearance}>
       <MetaInfo $appearance={appearance}>
         <DateTime>{formattedDate}</DateTime>
         <Index $appearance={appearance}>#{idx}</Index>
