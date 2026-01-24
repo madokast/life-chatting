@@ -1,13 +1,17 @@
 import { useState, useEffect } from 'react'
 import { Posts } from './components/diary/Posts'
+import { Chat } from './components/chat/Chat'
 import { Header } from './components/navigation/Header'
 import { Drawer } from './components/navigation/Drawer'
 import { i18n } from './i18n/i18n'
 import { userConfig, Appearance } from './config/UserConfig'
 
+type View = 'diary' | 'chat'
+
 function App() {
   const [appearance, setAppearance] = useState<Appearance>(userConfig.getAppearance())
   const [isDrawerOpen, setIsDrawerOpen] = useState(false)
+  const [currentView, setCurrentView] = useState<View>('diary')
   const [, forceUpdate] = useState({})
 
   useEffect(() => {
@@ -41,18 +45,19 @@ function App() {
       />
 
       <main className="main-content">
-        <Posts appearance={appearance} />
+        {currentView === 'diary' ? (
+          <Posts appearance={appearance} />
+        ) : (
+          <Chat appearance={appearance} />
+        )}
       </main>
 
       <footer className="footer" style={{ backgroundColor: appearance === 'light' ? '#fff' : '#1a1a1a', borderTopColor: appearance === 'light' ? '#e0e0e0' : '#333333' }}>
-        <div className="nav-item">
+        <div className="nav-item" onClick={() => setCurrentView('diary')}>
           <span>{i18n.t('nav.diary')}</span>
         </div>
-        <div className="nav-item">
+        <div className="nav-item" onClick={() => setCurrentView('chat')}>
           <span>{i18n.t('nav.chat')}</span>
-        </div>
-        <div className="nav-item">
-          <span>{i18n.t('nav.settings')}</span>
         </div>
       </footer>
 

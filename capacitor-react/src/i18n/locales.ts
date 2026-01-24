@@ -19,6 +19,10 @@ export interface Translations {
     languageZh: string
     languageEn: string
   }
+  chat: {
+    placeholder: string
+    send: string
+  }
 }
 
 export const locales: Record<Language, Translations> = {
@@ -40,6 +44,10 @@ export const locales: Record<Language, Translations> = {
       language: '语言',
       languageZh: '中文',
       languageEn: 'En'
+    },
+    chat: {
+      placeholder: '输入消息...',
+      send: '发送'
     }
   },
   en: {
@@ -60,6 +68,10 @@ export const locales: Record<Language, Translations> = {
       language: 'Language',
       languageZh: '中文',
       languageEn: 'En'
+    },
+    chat: {
+      placeholder: 'Type a message...',
+      send: 'Send'
     }
   }
 }
