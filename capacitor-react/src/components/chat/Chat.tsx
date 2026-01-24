@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { AIMessageBubble } from './AIMessageBubble'
 import { UserMessageBubble } from './UserMessageBubble'
 import { ChatInput } from './ChatInput'
+import { useAppearance } from '../../context/ThemeContext'
 
 export type MessageRole = 'user' | 'ai'
 
@@ -10,10 +11,6 @@ export interface Message {
   id: number
   role: MessageRole
   content: string
-}
-
-export interface ChatProps {
-  appearance: 'light' | 'dark'
 }
 
 const sampleMessages: Message[] = [
@@ -58,7 +55,8 @@ const MessagesContainer = styled.div<{ $appearance: 'light' | 'dark' }>`
   background-color: ${props => props.$appearance === 'light' ? '#f5f5f5' : '#0d0d0d'};
 `
 
-export function Chat({ appearance }: ChatProps) {
+export function Chat() {
+  const { appearance } = useAppearance()
   const [messages, setMessages] = useState<Message[]>(sampleMessages)
 
   const handleSend = (content: string) => {
@@ -78,18 +76,16 @@ export function Chat({ appearance }: ChatProps) {
             <UserMessageBubble
               key={message.id}
               content={message.content}
-              appearance={appearance}
             />
           ) : (
             <AIMessageBubble
               key={message.id}
               content={message.content}
-              appearance={appearance}
             />
           )
         ))}
       </MessagesContainer>
-      <ChatInput onSend={handleSend} appearance={appearance} />
+      <ChatInput onSend={handleSend} />
     </ChatContainer>
   )
 }

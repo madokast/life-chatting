@@ -1,4 +1,4 @@
-import { Language, locales, Translations } from './locales'
+import { Language, locales } from './locales'
 
 class I18n {
   private static instance: I18n

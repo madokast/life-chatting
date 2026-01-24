@@ -1,14 +1,13 @@
 import styled from 'styled-components'
-import { Appearance } from '../../config/UserConfig'
+import { useAppearance } from '../../context/ThemeContext'
 
 export interface ToggleItemProps {
   label: string
   value: string
-  appearance: Appearance
   onClick: () => void
 }
 
-const ItemContainer = styled.div<{ $appearance: Appearance }>`
+const ItemContainer = styled.div<{ $appearance: 'light' | 'dark' }>`
   padding: 1rem 1.5rem;
   display: flex;
   justify-content: space-between;
@@ -26,12 +25,14 @@ const ItemLabel = styled.span`
   font-size: 1rem;
 `
 
-const ItemValue = styled.span<{ $appearance: Appearance }>`
+const ItemValue = styled.span<{ $appearance: 'light' | 'dark' }>`
   font-size: 0.9rem;
   color: ${props => props.$appearance === 'light' ? '#666666' : '#888888'};
 `
 
-export function ToggleItem({ label, value, appearance, onClick }: ToggleItemProps) {
+export function ToggleItem({ label, value, onClick }: ToggleItemProps) {
+  const { appearance } = useAppearance()
+
   return (
     <ItemContainer $appearance={appearance} onClick={onClick}>
       <ItemLabel>{label}</ItemLabel>

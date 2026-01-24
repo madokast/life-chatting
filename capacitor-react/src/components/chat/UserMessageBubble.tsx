@@ -1,8 +1,8 @@
 import styled from 'styled-components'
+import { useAppearance } from '../../context/ThemeContext'
 
 export interface UserMessageBubbleProps {
   content: string
-  appearance: 'light' | 'dark'
 }
 
 const MessageContainer = styled.div<{ $appearance: 'light' | 'dark' }>`
@@ -23,7 +23,9 @@ const Bubble = styled.div<{ $appearance: 'light' | 'dark' }>`
   word-wrap: break-word;
 `
 
-export function UserMessageBubble({ content, appearance }: UserMessageBubbleProps) {
+export function UserMessageBubble({ content }: UserMessageBubbleProps) {
+  const { appearance } = useAppearance()
+
   return (
     <MessageContainer $appearance={appearance}>
       <Bubble $appearance={appearance}>{content}</Bubble>

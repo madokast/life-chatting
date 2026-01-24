@@ -1,10 +1,10 @@
 import { useState } from 'react'
 import styled from 'styled-components'
 import { i18n } from '../../i18n/i18n'
+import { useAppearance } from '../../context/ThemeContext'
 
 export interface ChatInputProps {
   onSend: (message: string) => void
-  appearance: 'light' | 'dark'
 }
 
 const InputContainer = styled.div<{ $appearance: 'light' | 'dark' }>`
@@ -70,7 +70,8 @@ const SendButton = styled.button<{ $appearance: 'light' | 'dark' }>`
   }
 `
 
-export function ChatInput({ onSend, appearance }: ChatInputProps) {
+export function ChatInput({ onSend }: ChatInputProps) {
+  const { appearance } = useAppearance()
   const [message, setMessage] = useState('')
 
   const handleSend = () => {

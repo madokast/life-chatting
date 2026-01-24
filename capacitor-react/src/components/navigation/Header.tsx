@@ -1,13 +1,12 @@
 import styled from 'styled-components'
-import { Appearance } from '../../config/UserConfig'
+import { useAppearance } from '../../context/ThemeContext'
 
 export interface HeaderProps {
   onMenuClick: () => void
   title: string
-  appearance: Appearance
 }
 
-const HeaderContainer = styled.div<{ $appearance: Appearance }>`
+const HeaderContainer = styled.div<{ $appearance: 'light' | 'dark' }>`
   background-color: #4a6fa5;
   color: white;
   padding: 1rem;
@@ -52,7 +51,9 @@ const Title = styled.h1`
   font-weight: 600;
 `
 
-export function Header({ onMenuClick, title, appearance }: HeaderProps) {
+export function Header({ onMenuClick, title }: HeaderProps) {
+  const { appearance } = useAppearance()
+
   return (
     <HeaderContainer $appearance={appearance}>
       <MenuButton onClick={onMenuClick}>

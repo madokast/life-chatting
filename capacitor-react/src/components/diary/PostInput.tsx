@@ -1,10 +1,10 @@
 import { useState } from 'react'
 import styled from 'styled-components'
 import { i18n } from '../../i18n/i18n'
+import { useAppearance } from '../../context/ThemeContext'
 
 export interface PostInputProps {
   onAddPost: (content: string) => void
-  appearance: 'light' | 'dark'
 }
 
 const InputContainer = styled.div<{ $appearance: 'light' | 'dark' }>`
@@ -70,7 +70,8 @@ const AddButton = styled.button<{ $appearance: 'light' | 'dark' }>`
   }
 `
 
-export function PostInput({ onAddPost, appearance }: PostInputProps) {
+export function PostInput({ onAddPost }: PostInputProps) {
+  const { appearance } = useAppearance()
   const [content, setContent] = useState('')
 
   const handleAdd = () => {

@@ -1,10 +1,10 @@
 import styled from 'styled-components'
+import { useAppearance } from '../../context/ThemeContext'
 
 export interface PostProps {
   idx: number
   created_at: number
   content: string
-  appearance: 'light' | 'dark'
 }
 
 const formatTimestamp = (timestamp: number): string => {
@@ -58,7 +58,8 @@ const Content = styled.div<{ $appearance: 'light' | 'dark' }>`
   -ms-user-select: text;
 `
 
-export function Post({ idx, created_at, content, appearance }: PostProps) {
+export function Post({ idx, created_at, content }: PostProps) {
+  const { appearance } = useAppearance()
   const formattedDate = formatTimestamp(created_at)
   
   return (

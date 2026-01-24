@@ -1,12 +1,12 @@
 import styled from 'styled-components'
 import { i18n } from '../../i18n/i18n'
+import { useAppearance } from '../../context/ThemeContext'
 
 export type View = 'diary' | 'chat'
 
 export interface FooterProps {
   currentView: View
   onViewChange: (view: View) => void
-  appearance: 'light' | 'dark'
 }
 
 const FooterContainer = styled.footer<{ $appearance: 'light' | 'dark' }>`
@@ -49,7 +49,9 @@ const NavItem = styled.button<{ $active: boolean; $appearance: 'light' | 'dark' 
   }
 `
 
-export function Footer({ currentView, onViewChange, appearance }: FooterProps) {
+export function Footer({ currentView, onViewChange }: FooterProps) {
+  const { appearance } = useAppearance()
+
   return (
     <FooterContainer $appearance={appearance}>
       <NavItem

@@ -1,17 +1,17 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import styled from 'styled-components'
 import { i18n } from '../../i18n/i18n'
-import { userConfig, Appearance } from '../../config/UserConfig'
+import { userConfig } from '../../config/UserConfig'
 import type { Language } from '../../i18n/locales'
 import { DrawerHeader } from './DrawerHeader'
 import { DrawerBody } from './DrawerBody'
 import { DrawerFooter } from './DrawerFooter'
 import { ToggleItem } from './ToggleItem'
+import { useAppearance } from '../../context/ThemeContext'
 
 export interface DrawerProps {
   isOpen: boolean
   onClose: () => void
-  appearance: Appearance
 }
 
 const Overlay = styled.div<{ $isOpen: boolean }>`
@@ -27,7 +27,7 @@ const Overlay = styled.div<{ $isOpen: boolean }>`
   transition: opacity 0.3s ease, visibility 0.3s ease;
 `
 
-const DrawerContainer = styled.div<{ $isOpen: boolean; $appearance: Appearance }>`
+const DrawerContainer = styled.div<{ $isOpen: boolean; $appearance: 'light' | 'dark' }>`
   position: fixed;
   top: 0;
   left: 0;
@@ -42,25 +42,18 @@ const DrawerContainer = styled.div<{ $isOpen: boolean; $appearance: Appearance }
   flex-direction: column;
 `
 
-export function Drawer({ isOpen, onClose, appearance }: DrawerProps) {
-  const [currentAppearance, setCurrentAppearance] = useState<Appearance>(userConfig.getAppearance())
+export function Drawer({ isOpen, onClose }: DrawerProps) {
+  const { appearance, setAppearance } = useAppearance()
   const [currentLanguage, setCurrentLanguage] = useState<Language>(userConfig.getLanguage())
 
-  useEffect(() => {
-    const unsubscribe = userConfig.subscribe(() => {
-      setCurrentAppearance(userConfig.getAppearance())
-      setCurrentLanguage(userConfig.getLanguage())
-    })
-    return unsubscribe
-  }, [])
-
   const handleAppearanceToggle = () => {
-    const newAppearance: Appearance = currentAppearance === 'light' ? 'dark' : 'light'
-    userConfig.setAppearance(newAppearance)
+    const newAppearance = appearance === 'light' ? 'dark' : 'light'
+    setAppearance(newAppearance)
   }
 
   const handleLanguageToggle = () => {
     const newLanguage = currentLanguage === 'zh' ? 'en' : 'zh'
+    setCurrentLanguage(newLanguage)
     userConfig.setLanguage(newLanguage)
     i18n.setLanguage(newLanguage)
   }
@@ -73,22 +66,20 @@ export function Drawer({ isOpen, onClose, appearance }: DrawerProps) {
     <>
       <Overlay $isOpen={isOpen} onClick={handleOverlayClick} />
       <DrawerContainer $isOpen={isOpen} $appearance={appearance}>
-        <DrawerHeader appearance={appearance} />
+        <DrawerHeader />
         <DrawerBody>
           <ToggleItem
             label={i18n.t('drawer.appearance')}
-            value={currentAppearance === 'light' ? i18n.t('drawer.appearanceLight') : i18n.t('drawer.appearanceDark')}
-            appearance={appearance}
+            value={appearance === 'light' ? i18n.t('drawer.appearanceLight') : i18n.t('drawer.appearanceDark')}
             onClick={handleAppearanceToggle}
           />
           <ToggleItem
             label={i18n.t('drawer.language')}
             value={currentLanguage === 'zh' ? i18n.t('drawer.languageZh') : i18n.t('drawer.languageEn')}
-            appearance={appearance}
             onClick={handleLanguageToggle}
           />
         </DrawerBody>
-        <DrawerFooter appearance={appearance} />
+        <DrawerFooter />
       </DrawerContainer>
     </>
   )

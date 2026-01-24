@@ -2,6 +2,7 @@ import { useState } from 'react'
 import styled from 'styled-components'
 import { Post } from './Post'
 import { PostInput } from './PostInput'
+import { useAppearance } from '../../context/ThemeContext'
 
 export interface PostData {
   idx: number
@@ -37,10 +38,6 @@ const samplePosts: PostData[] = [
   }
 ]
 
-export interface PostsProps {
-  appearance: 'light' | 'dark'
-}
-
 const PostsContainer = styled.div<{ $appearance: 'light' | 'dark' }>`
   display: flex;
   flex-direction: column;
@@ -53,7 +50,8 @@ const PostsList = styled.div`
   overflow-y: auto;
 `
 
-export function Posts({ appearance }: PostsProps) {
+export function Posts() {
+  const { appearance } = useAppearance()
   const [posts, setPosts] = useState<PostData[]>(samplePosts)
 
   const handleAddPost = (content: string) => {
@@ -74,11 +72,10 @@ export function Posts({ appearance }: PostsProps) {
             idx={post.idx}
             created_at={post.created_at}
             content={post.content}
-            appearance={appearance}
           />
         ))}
       </PostsList>
-      <PostInput onAddPost={handleAddPost} appearance={appearance} />
+      <PostInput onAddPost={handleAddPost} />
     </PostsContainer>
   )
 }

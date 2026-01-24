@@ -13,7 +13,6 @@ class UserConfig {
     appearance: 'light',
     language: 'zh'
   }
-  private listeners: Set<() => void> = new Set()
 
   private constructor() {
     this.loadFromStorage()
@@ -33,7 +32,6 @@ class UserConfig {
   setAppearance(appearance: Appearance): void {
     this.config.appearance = appearance
     this.saveToStorage()
-    this.notifyListeners()
   }
 
   getLanguage(): Language {
@@ -43,14 +41,6 @@ class UserConfig {
   setLanguage(language: Language): void {
     this.config.language = language
     this.saveToStorage()
-    this.notifyListeners()
-  }
-
-  subscribe(listener: () => void): () => void {
-    this.listeners.add(listener)
-    return () => {
-      this.listeners.delete(listener)
-    }
   }
 
   private saveToStorage(): void {
@@ -76,10 +66,6 @@ class UserConfig {
     } catch (error) {
       console.error('Failed to load user config:', error)
     }
-  }
-
-  private notifyListeners(): void {
-    this.listeners.forEach(listener => listener())
   }
 }
 

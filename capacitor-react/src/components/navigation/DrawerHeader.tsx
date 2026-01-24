@@ -1,12 +1,8 @@
 import styled from 'styled-components'
-import { Appearance } from '../../config/UserConfig'
+import { useAppearance } from '../../context/ThemeContext'
 import { i18n } from '../../i18n/i18n'
 
-export interface DrawerHeaderProps {
-  appearance: Appearance
-}
-
-const HeaderContainer = styled.div<{ $appearance: Appearance }>`
+const HeaderContainer = styled.div<{ $appearance: 'light' | 'dark' }>`
   padding: 1.5rem;
   border-bottom: 1px solid ${props => props.$appearance === 'light' ? '#e0e0e0' : '#333333'};
   font-size: 1.2rem;
@@ -17,7 +13,9 @@ const HeaderContainer = styled.div<{ $appearance: Appearance }>`
   align-items: center;
 `
 
-export function DrawerHeader({ appearance }: DrawerHeaderProps) {
+export function DrawerHeader() {
+  const { appearance } = useAppearance()
+
   return (
     <HeaderContainer $appearance={appearance}>
       {i18n.t('drawer.postCount')}
