@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
-import { Posts } from './components/Posts'
-import { Header } from './components/Header'
-import { Drawer } from './components/Drawer'
+import { Posts } from './components/diary/Posts'
+import { Header } from './components/navigation/Header'
+import { Drawer } from './components/navigation/Drawer'
 import { i18n } from './i18n/i18n'
 import { userConfig, Appearance } from './config/UserConfig'
 

@@ -1,6 +1,6 @@
 import styled from 'styled-components'
-import { Appearance } from '../config/UserConfig'
-import { i18n } from '../i18n/i18n'
+import { Appearance } from '../../config/UserConfig'
+import { i18n } from '../../i18n/i18n'
 
 export interface DrawerFooterProps {
   appearance: Appearance

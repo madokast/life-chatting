@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { Appearance } from '../config/UserConfig'
+import { Appearance } from '../../config/UserConfig'
 
 export interface ToggleItemProps {
   label: string
