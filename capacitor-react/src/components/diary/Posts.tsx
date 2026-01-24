@@ -19,6 +19,7 @@ const PostsListWrapper = styled.div`
 `
 
 const ITEM_ESTIMATED_HEIGHT = 150
+const LOAD_MORE_THRESHOLD = 5
 
 export function Posts() {
   const { appearance } = useAppearance()
@@ -57,6 +58,17 @@ export function Posts() {
 
   const Row = useCallback((props: RowComponentProps<{ posts: PostData[] }>) => {
     const { index, style, posts } = props
+
+    if (index === posts.length) {
+      return (
+        <div style={style}>
+          <div style={{ padding: '20px', textAlign: 'center', color: appearance === 'light' ? '#666' : '#999' }}>
+            加载中...
+          </div>
+        </div>
+      )
+    }
+
     const post = posts[index]
 
     return (
@@ -69,7 +81,7 @@ export function Posts() {
         />
       </div>
     )
-  }, [dynamicRowHeight])
+  }, [dynamicRowHeight, appearance])
 
   useEffect(() => {
     const initPosts = async () => {
@@ -84,7 +96,7 @@ export function Posts() {
     <PostsContainer $appearance={appearance}>
       <PostsListWrapper>
         <List
-          rowCount={posts.length}
+          rowCount={hasMore ? posts.length + 1 : posts.length}
           rowHeight={dynamicRowHeight}
           rowComponent={Row}
           rowProps={{
@@ -92,7 +104,7 @@ export function Posts() {
           }}
           onRowsRendered={(visibleRows) => {
             const { stopIndex } = visibleRows
-            if (stopIndex >= posts.length - 1 && hasMore && !loading) {
+            if (stopIndex >= posts.length - 1 - LOAD_MORE_THRESHOLD && hasMore && !loading) {
               loadMorePosts()
             }
           }}
