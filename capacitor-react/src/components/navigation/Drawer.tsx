@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import styled from 'styled-components'
 import { i18n } from '../../i18n/i18n'
-import { userConfig } from '../../config/UserConfig'
+import { userConfig, Appearance } from '../../config/UserConfig'
 import type { Language } from '../../i18n/locales'
 import { DrawerHeader } from './DrawerHeader'
 import { DrawerBody } from './DrawerBody'
@@ -45,9 +45,15 @@ const DrawerContainer = styled.div<{ $isOpen: boolean; $appearance: 'light' | 'd
 export function Drawer({ isOpen, onClose }: DrawerProps) {
   const { appearance, setAppearance } = useAppearance()
   const [currentLanguage, setCurrentLanguage] = useState<Language>(userConfig.getLanguage())
+  const [currentAppearance, setCurrentAppearance] = useState<Appearance>(userConfig.getAppearance())
 
   const handleAppearanceToggle = () => {
-    const newAppearance = appearance === 'light' ? 'dark' : 'light'
+    const appearanceOrder: Appearance[] = ['light', 'dark', 'system']
+    const currentIndex = appearanceOrder.indexOf(currentAppearance)
+    const nextIndex = (currentIndex + 1) % appearanceOrder.length
+    const newAppearance = appearanceOrder[nextIndex]
+    
+    setCurrentAppearance(newAppearance)
     setAppearance(newAppearance)
   }
 
@@ -56,6 +62,16 @@ export function Drawer({ isOpen, onClose }: DrawerProps) {
     setCurrentLanguage(newLanguage)
     userConfig.setLanguage(newLanguage)
     i18n.setLanguage(newLanguage)
+  }
+
+  const getAppearanceText = (): string => {
+    if (currentAppearance === 'light') {
+      return i18n.t('drawer.appearanceLight')
+    } else if (currentAppearance === 'dark') {
+      return i18n.t('drawer.appearanceDark')
+    } else {
+      return i18n.t('drawer.appearanceSystem')
+    }
   }
 
   const handleOverlayClick = () => {
@@ -70,7 +86,7 @@ export function Drawer({ isOpen, onClose }: DrawerProps) {
         <DrawerBody>
           <ToggleItem
             label={i18n.t('drawer.appearance')}
-            value={appearance === 'light' ? i18n.t('drawer.appearanceLight') : i18n.t('drawer.appearanceDark')}
+            value={getAppearanceText()}
             onClick={handleAppearanceToggle}
           />
           <ToggleItem

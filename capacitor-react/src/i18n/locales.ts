@@ -15,6 +15,7 @@ export interface Translations {
     appearance: string
     appearanceLight: string
     appearanceDark: string
+    appearanceSystem: string
     language: string
     languageZh: string
     languageEn: string
@@ -45,6 +46,7 @@ export const locales: Record<Language, Translations> = {
       appearance: '显示样式',
       appearanceLight: '浅色',
       appearanceDark: '深色',
+      appearanceSystem: '跟随系统',
       language: '语言',
       languageZh: '中文',
       languageEn: 'En'
@@ -73,6 +75,7 @@ export const locales: Record<Language, Translations> = {
       appearance: 'Appearance',
       appearanceLight: 'Light',
       appearanceDark: 'Dark',
+      appearanceSystem: 'System',
       language: 'Language',
       languageZh: '中文',
       languageEn: 'En'

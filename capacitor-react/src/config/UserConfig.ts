@@ -1,6 +1,6 @@
 import { Language } from '../i18n/locales.ts'
 
-export type Appearance = 'light' | 'dark'
+export type Appearance = 'light' | 'dark' | 'system'
 
 interface UserConfigData {
   appearance: Appearance
@@ -10,7 +10,7 @@ interface UserConfigData {
 class UserConfig {
   private static instance: UserConfig
   private config: UserConfigData = {
-    appearance: 'light',
+    appearance: 'system',
     language: 'zh'
   }
 
