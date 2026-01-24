@@ -46,11 +46,12 @@ function App() {
       />
 
       <main className="main-content">
-        {currentView === 'diary' ? (
+        <div style={{ display: currentView === 'diary' ? 'block' : 'none' }}>
           <Posts appearance={appearance} />
-        ) : (
+        </div>
+        <div style={{ display: currentView === 'chat' ? 'block' : 'none' }}>
           <Chat appearance={appearance} />
-        )}
+        </div>
       </main>
 
       <Footer
